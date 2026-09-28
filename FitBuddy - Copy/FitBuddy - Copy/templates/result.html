@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FitBuddy — Your Plan</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <main class="container">
+    <div class="topbar"><a href="/">← New plan</a><a href="/view-all-users">Admin dashboard</a></div>
+    {% if message %}<div class="alert success">{{ message }}</div>{% endif %}
+    {% if error %}<div class="alert error">{{ error }}</div>{% endif %}
+
+    {% if user and plan %}
+    <section class="card">
+      <p class="eyebrow">PERSONALIZED PLAN</p>
+      <h1>Hi {{ user.username }} 👋</h1>
+      <div class="profile-grid">
+        <div><span>User ID</span><strong>{{ user.user_id }}</strong></div>
+        <div><span>Age</span><strong>{{ user.age }}</strong></div>
+        <div><span>Weight</span><strong>{{ user.weight }} kg</strong></div>
+        <div><span>Goal</span><strong>{{ user.goal }}</strong></div>
+        <div><span>Intensity</span><strong>{{ user.intensity }}</strong></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>7-Day Workout Plan</h2>
+      <pre class="plan">{{ plan.updated_plan or plan.original_plan }}</pre>
+    </section>
+
+    <section class="card tip">
+      <h2>Nutrition / Recovery Tip</h2>
+      <p>{{ plan.nutrition_tip }}</p>
+    </section>
+
+    <section class="card">
+      <h2>Refine your plan</h2>
+      <p>Tell FitBuddy what you want changed, such as “more cardio” or “include another rest day.”</p>
+      <form method="post" action="/submit-feedback">
+        <input type="hidden" name="user_id" value="{{ user.user_id }}">
+        <label>Feedback<textarea name="feedback" rows="5" required maxlength="2000" placeholder="Example: Reduce leg volume and add more low-impact cardio."></textarea></label>
+        <button type="submit">Update Plan with AI</button>
+      </form>
+    </section>
+    {% endif %}
+  </main>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FitBuddy — Admin Dashboard</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  
+</head>
+<body>
+  <main class="container wide">
+    <div class="topbar"><a href="/">← Home</a><a href="/docs">API docs</a></div>
+    <section class="card">
+      <p class="eyebrow">ADMIN / COACH VIEW</p>
+      <h1>All Users & Plans</h1>
+      {% if not users %}<p>No users have been registered yet.</p>{% endif %}
+      {% for user in users %}
+        <article class="user-record">
+          <div class="record-head">
+            <div><h2>{{ user.username }}</h2><p>{{ user.user_id }} · {{ user.age }} years · {{ user.weight }} kg · {{ user.goal }} · {{ user.intensity }}</p></div>
+          </div>
+          {% for plan in user.plans %}
+            <h3>Original Plan</h3><pre class="plan compact">{{ plan.original_plan }}</pre>
+            {% if plan.updated_plan %}<h3>Updated Plan</h3><pre class="plan compact">{{ plan.updated_plan }}</pre>{% endif %}
+            {% if plan.feedback %}<h3>Feedback</h3><p>{{ plan.feedback }}</p>{% endif %}
+          {% endfor %}
+        </article>
+      {% endfor %}
+    </section>
+  </main>
+</body>
+</html>
